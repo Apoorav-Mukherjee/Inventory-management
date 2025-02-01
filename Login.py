@@ -8,8 +8,8 @@ from Inventory import InventoryApp
 class Ui_MainWindow_Login(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(646, 548)
-        MainWindow.setMinimumSize(600, 500)  # Prevents resizing below this size
+        MainWindow.resize(500, 500)
+        MainWindow.setMinimumSize(500, 500)  # Prevents resizing below this size
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -92,9 +92,15 @@ class Ui_MainWindow_Login(object):
         self.RememberCheckBox.setGeometry(QtCore.QRect(60, 240, 70, 17))
         self.RememberCheckBox.setObjectName("RememberCheckBox")
         
-        self.ForgotLabel = QtWidgets.QLabel(self.LoginPage)
-        self.ForgotLabel.setGeometry(QtCore.QRect(160, 240, 91, 16))
-        self.ForgotLabel.setObjectName("ForgotLabel")
+        self.ForgotButton = QtWidgets.QPushButton(self.LoginPage)
+        self.ForgotButton.setGeometry(QtCore.QRect(160, 240, 91, 16))
+        self.ForgotButton.setObjectName("ForgotButton")
+        self.ForgotButton.setStyleSheet("""
+                            QPushButton {
+                                        color:#f7443e;
+                                        }
+        """)
+        self.ForgotButton.clicked.connect(self.ForgotPass)
         
         # Login Button Styling
         self.LoginButton = QtWidgets.QPushButton(self.LoginPage)
@@ -121,7 +127,7 @@ class Ui_MainWindow_Login(object):
                             font-weight:bold;
                             }
         """)
-        self.CreateAccBtn.clicked.connect(self.signup)
+        # self.CreateAccBtn.clicked.connect(self.signup)
         
         
         MainWindow.setCentralWidget(self.centralwidget)
@@ -170,37 +176,48 @@ class Ui_MainWindow_Login(object):
 
             self.LoginPage.setGeometry(new_x, new_y, card_width, card_height)
 
+    def resize_background(self):
+         window_width = self.centralwidget.width()
+         window_height = self.centralwidget.height()
+
+         self.Backgroundwidget.setGeometry(0,0,window_width,window_height)
+
     def resizeEvent(self, event):
             """ Calls the center_login_card() whenever the window resizes """
             self.center_login_card()
+            self.resize_background()
             event.accept()
 
-    
-
-
+    def ForgotPass(self):
+        """Switch to Forgot Password Window"""
+        from ForgotWindow import Ui_Form
+        self.Form = QtWidgets.QWidget()
+        self.ui = Ui_Form()
+        self.ui.setupUi(self.Form)
+        self.Form.show()
+ 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Login Page"))
         self.UserLoginLabel.setText(_translate("MainWindow", "User Login"))
         self.UsernameInput.setPlaceholderText(_translate("MainWindow", "Username"))
         self.PasswordInput.setPlaceholderText(_translate("MainWindow", "Password"))
-        self.WelcomeLabel.setText(_translate("MainWindow", "Welcome to Whatsapp Automation Bot"))
-        self.RememberCheckBox.setText(_translate("MainWindow", "Remember"))
-        self.ForgotLabel.setText(_translate("MainWindow", "Forgot Password?"))
+        self.WelcomeLabel.setText(_translate("MainWindow", "Welcome to Inventory Management System"))
+        self.RememberCheckBox.setText(_translate("MainWindow", "Remember Me"))
+        self.ForgotButton.setText(_translate("MainWindow", "Forgot Password?"))
         self.LoginButton.setText(_translate("MainWindow", "Login"))
         self.CreateAccBtn.setText(_translate("MainWindow", "Create Account"))
 
     
-
-
-def Main_Login():
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow_Login()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())   
+  
 if __name__ == "__main__":
+    def Main_Login():
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        MainWindow = QtWidgets.QMainWindow()
+        ui = Ui_MainWindow_Login()
+        ui.setupUi(MainWindow)
+        MainWindow.show()
+        sys.exit(app.exec_()) 
     Main_Login()
     

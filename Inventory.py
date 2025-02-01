@@ -70,8 +70,18 @@ class InventoryApp(QMainWindow):
         self.total_categories.setFont(QFont("Arial",14))
         self.total_categories.setStyleSheet("color:#a83260;")
 
+        self.profit = QLabel("Total Profit: ₹0.00")
+        self.profit.setFont(QFont("Arial",14))
+        self.profit.setStyleSheet("color:#a83260;")
+
+        self.stock = QLabel("Total Stock: ₹0.00")
+        self.stock.setFont(QFont("Arial",14))
+        self.stock.setStyleSheet("color:#a83260;")
+
         self.dashboard_layout.addWidget(self.total_items)
         self.dashboard_layout.addWidget(self.total_categories)
+        self.dashboard_layout.addWidget(self.profit)
+        self.dashboard_layout.addWidget(self.stock)
         self.layout.addLayout(self.dashboard_layout)
 
         # Input Fields
@@ -209,8 +219,12 @@ class InventoryApp(QMainWindow):
             
             total_items = len(rows)
             total_categories = {row[2] for row in rows}
+            profit = sum([(row[3]*row[5]) for row in rows])
+            stock = sum([(row[3] * row[4]) for row in rows])
             self.total_items.setText(f"Total Items: {total_items}")
             self.total_categories.setText(f"Total Categories: {len(total_categories)}")
+            self.profit.setText(f"Total Profit: ₹{profit:.2f}")
+            self.stock.setText(f"Total Stock: ₹{stock:.2f}")
         except Exception as e:
             QMessageBox.critical(self,"Error",f"An Error Occured: {e}")
 
